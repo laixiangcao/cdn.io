@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8">
+	<meta content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=0;" name="viewport" />
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
+	<title>Document</title>
+	<script type="text/javascript" charset="UTF-8" src="//res.cdn.openinstall.io/openinstall.js"></script>
+	<script type="text/javascript">
+		window.onload = function () {
+			//openinstall初始化时将与openinstall服务器交互，应尽可能早的调用
+			/*web页面向app传递的json数据(json string/js Object)，应用被拉起或是首次安装时，通过相应的android/ios api可以获取此数据*/
+			var data = OpenInstall.parseUrlParams(); //openinstall.js中提供的工具函数，解析url中的所有查询参数
+			new OpenInstall({
+				/*appKey必选参数，openinstall平台为每个应用分配的ID*/
+				appKey: "otby76",
+				/*可选参数，自定义android平台的apk下载文件名；个别andriod浏览器下载时，中文文件名显示乱码，请慎用中文文件名！*/
+				//apkFileName : 'com.fm.openinstalldemo-v2.2.0.apk',
+				/*可选参数，是否优先考虑拉起app，以牺牲下载体验为代价*/
+				//preferWakeup:true,
+				/*自定义遮罩的html*/
+				//mask:function(){
+				//  return "<div id='openinstall_shadow' style='position:fixed;left:0;top:0;background:rgba(0,255,0,0.5);filter:alpha(opacity=50);width:100%;height:100%;z-index:10000;'></div>"
+				//},
+				/*openinstall初始化完成的回调函数，可选*/
+				onready: function () {
+					var m = this,
+						button = document.getElementById("downloadButton");
+					button.style.visibility = "visible";
+
+					/*在app已安装的情况尝试拉起app*/
+					m.schemeWakeup();
+					/*用户点击某个按钮时(假定按钮id为downloadButton)，安装app*/
+					button.onclick = function () {
+						m.wakeupOrInstall();
+						return false;
+					}
+				}
+			}, data);
+		}
+	</script>
+</head>
+<style>
+	* {
+		margin: 0;
+		padding: 0;
+	}
+
+	.box {
+		font-size: 0px;
+		width: 100%;
+		height: 100%;
+	}
+
+	.box .img {
+		font-size: 0px;
+	}
+
+	.box .bottomBtn {
+		background: white;
+		position: fixed;
+		bottom: 0;
+		left: 0;
+		height: 58px;
+		width: 100%;
+		border-top: 1px solid #ccc;
+		display: flex;
+		align-items: center;
+		padding: 0 20px 0 20px;
+		box-sizing: border-box;
+	}
+
+	.box .bottomBtn .logo {
+		flex-basis: 38px;
+		height: 38px;
+	}
+
+	.box .bottomBtn .logo .logoImg {}
+
+	.box .bottomBtn .txt {
+		flex: 1;
+		font-size: 14px;
+		margin: 0 10px;
+	}
+
+	.box .bottomBtn .txt .title {
+		color: #333333;
+		font-weight: bold;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+
+	.box .bottomBtn .txt .content {
+		color: #666666;
+		font-family: Arial, Helvetica, sans-serif;
+	}
+
+	.box .bottomBtn .btn {
+		flex-basis: 90px;
+		height: 32px;
+		background: rgb(110, 175, 51);
+		font-size: 14px;
+		text-align: center;
+		line-height: 32px;
+		border-radius: 4px;
+		color: white;
+		font-family: Arial, Helvetica, sans-serif;
+		font-weight: bold;
+	}
+</style>
+
+<body>
+	<div class="box">
+		<img class="img" width="100%" height="100%" src="https://www.ecouponsx.com/lp/1/img/landing.jpg">
+		<div class="bottomBtn">
+			<div class="logo">
+				<img class="logoImg" width="38px" height="38px" src="https://www.ecouponsx.com/lp/1/img/aboutLogo.png">
+			</div>
+			<div class="txt">
+				<p class="title">Ecoupons</p>
+				<p class="content">Shopping 100% Cash Back</p>
+			</div>
+			<div class="btn" id="downloadButton">
+				Download
+			</div>
+		</div>
+	</div>
+</body>
+
+</html>
